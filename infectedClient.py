@@ -1,5 +1,6 @@
 import audioConverter as ac
 import requests
+from io import BytesIO
 
 headers = {
                 "Host": "http://192.168.15.25:5000",
@@ -25,36 +26,38 @@ title = '''
 '''
 def uploadAndEncrypt(original_file_name, encoded_file_name, message, is_binary):
     # Encode the file
-    encoded_file = ac.encode_message(original_file_name, encoded_file_name, message, is_binary)
+    ac.encode_message(original_file_name, encoded_file_name, message, is_binary)
     
     # Upload the file
-    upload_url = 'http://10.241.1.148:5000/'
-    files_original = {'file': open(original_file_name, 'rb')}
-    files_encoded = {'file': encoded_file} #<<----
-    response_original = requests.get(upload_url, files=files_original)
-    response_encoded = requests.get(upload_url, files=files_encoded)
-    print(response_original.text)  # File uploaded successfully!
+    upload_url = 'http://10.241.1.148:5000/upload'
+    # files_original = {'file': open(original_file_name, 'rb')}
+    files_encoded = {'file': open(encoded_file_name, 'rb')} #<<----
+    # response_original = requests.post(upload_url, files=files_original)
+    response_encoded = requests.post(upload_url, files=files_encoded)
+    # print(response_original.text)  # File uploaded successfully!
     print(response_encoded.text)  # File uploaded successfully!
     
     
 def downloadAndDecrypt(original_file_name, encoded_file_name):
     # Download a file
-    download_url_original = f'http://192.168.15.25:5000/files/{original_file_name}'
-    download_url_encoded = f'http://192.168.15.25:5000/files/{encoded_file_name}'
-    response_original = requests.post(download_url_original)
-    response_encoded = requests.post(download_url_encoded)
-    # with open(file_to_download, 'wb') as file:
-    #     file.write(response.content)
+    download_url_original = f'http://10.241.1.148:5000/files/{original_file_name}'
+    download_url_encoded = f'http://10.241.1.148:5000/files/{encoded_file_name}'
+    response_original = requests.get(download_url_original)
+    response_encoded = requests.get(download_url_encoded)
+    with open(original_file_name, 'wb') as file:
+        file.write(response_original.content)
+    with open(encoded_file_name, 'wb') as file:
+        file.write(response_encoded.content)
     print('Files downloaded successfully!')
     
-    print(ac.decode_message(response_original, response_encoded))
+    print(ac.decode_message(original_file_name, encoded_file_name))
 
 
 def main():
     print(title)
     try:
-        uploadAndEncrypt('aviciiLevelsWAV.wav', 'findTheMessage.wav', 'This is a test', False)
-       
+        # uploadAndEncrypt('aviciiLevelsWAV.wav', 'findTheMessage.wav', 'This is a test', False)
+        downloadAndDecrypt('aviciiLevelsWAV.wav', 'findTheMessage.wav')
 
     except ValueError as error:
         print("Error: " + str(error))

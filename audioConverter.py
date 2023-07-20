@@ -62,7 +62,9 @@ def encode_message(audio_file, output_file_name, message, is_binary):
 
 def decode_message(original_audio_file, encoded_audio_file):
     # Load the audio files
+    print('hello')
     sr1, data1 = wavfile.read(encoded_audio_file)
+    print('second')
     sr2, data2 = wavfile.read(original_audio_file)
 
 
@@ -125,7 +127,3 @@ title = '''
 
 # except ValueError as error:
 #     print("Error: " + str(error))
-                                                              
-#readme
-#able to take binary and turn it into things other than text
-#able to encode multiple songs
