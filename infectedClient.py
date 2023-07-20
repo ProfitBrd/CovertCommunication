@@ -40,12 +40,12 @@ def uploadAndEncrypt(original_file_name, encoded_file_name, message, is_binary):
     
 def downloadAndDecrypt(original_file_name, encoded_file_name):
     # Download a file
-    download_url_original = f'http://10.241.1.148:5000/files/{original_file_name}'
+    # download_url_original = f'http://10.241.1.148:5000/files/{original_file_name}'
     download_url_encoded = f'http://10.241.1.148:5000/files/{encoded_file_name}'
-    response_original = requests.get(download_url_original)
+    # response_original = requests.get(download_url_original)
     response_encoded = requests.get(download_url_encoded)
-    with open(original_file_name, 'wb') as file:
-        file.write(response_original.content)
+    # with open(original_file_name, 'wb') as file:
+    #     file.write(response_original.content)
     with open(encoded_file_name, 'wb') as file:
         file.write(response_encoded.content)
     print('Files downloaded successfully!')
@@ -56,8 +56,8 @@ def downloadAndDecrypt(original_file_name, encoded_file_name):
 def main():
     print(title)
     try:
-        # uploadAndEncrypt('aviciiLevelsWAV.wav', 'findTheMessage.wav', 'This is a test', False)
-        downloadAndDecrypt('aviciiLevelsWAV.wav', 'findTheMessage.wav')
+        uploadAndEncrypt('aviciiLevelsWAVoriginal.wav', 'findTheMessage.wav', 'This is a test', False)
+        downloadAndDecrypt('aviciiLevelsWAVoriginal.wav', 'findTheMessage.wav')
 
     except ValueError as error:
         print("Error: " + str(error))
