@@ -62,9 +62,7 @@ def encode_message(audio_file, output_file_name, message, is_binary):
 
 def decode_message(original_audio_file, encoded_audio_file):
     # Load the audio files
-    print('hello')
     sr1, data1 = wavfile.read(encoded_audio_file)
-    print('second')
     sr2, data2 = wavfile.read(original_audio_file)
 
 
@@ -105,25 +103,3 @@ def decode_message(original_audio_file, encoded_audio_file):
         message += chr(int(''.join(byte), 2))
 
     return message
-
-
-title = '''
- ______   __       ________   ___   __         _______   ______   ______      
-/_____/\\ /_/\\     /_______/\\ /__/\\ /__/\\     /_______/\\ /_____/\\ /_____/\\     
-\\:::_ \\ \\\\:\\ \\    \\::: _  \\ \\\\::\\_\\\\  \\ \\    \\::: _  \\ \\\\::::_\\/_\\::::_\\/_    
- \\:(_) \\ \\\\:\\ \\    \\::(_)  \\ \\\\:. `-\\  \\ \\    \\::(_)  \\/_\\:\\/___/\\\\:\\/___/\\   
-  \\: ___\\/ \\:\\ \\____\\:: __  \\ \\\\:. _    \\ \\    \\::  _  \\ \\\\::___\\/_\\::___\\/_  
-   \\ \\ \\    \\:\\/___/\\\\:.\\ \\  \\ \\\\. \\`-\\  \\ \\    \\::(_)  \\ \\\\:\\____/\\\\:\\____/\\ 
-    \\_\\/     \\_____\\/ \\__\\/\\__\\/ \\__\\/ \\__\\/     \\_______\\/ \\_____\\/ \\_____\\/ 
-                                                                              
-
-
-'''
-
-# try:
-#     print(title)
-#     encode_message('aviciiLevelsWAV.wav', 'findTheMessage.wav', 'This is a test', False)
-#     print(decode_message('aviciiLevelsWAV.wav', 'findTheMessage.wav'))
-
-# except ValueError as error:
-#     print("Error: " + str(error))
