@@ -29,15 +29,15 @@ def encode_message(audio_file, output_file_name, message, is_binary, file_type, 
     encoded_text = file_type.encode('utf-8')
     fileTypeInBinaryForm = ''.join(format(byte, '08b') for byte in encoded_text)
 
-    # Check if data length greater than song can hold
-    if len(data) < (len(binary_message) + len(fileTypeInBinaryForm) + len(lengthInBinaryForm)):
-        raise ValueError("The message is longer than the song can hold")
-
     # Skip forward until data isn't 0
     startIndex = 0
     while (data[startIndex][0] == 0):
         startIndex += 1
     
+    # Check if data length greater than song can hold
+    if len(data) < (len(binary_message) + len(fileTypeInBinaryForm) + len(lengthInBinaryForm) + startIndex):
+        raise ValueError("The message is longer than the song can hold")
+
 
     # Prepend the length of the message to the message
     messageIdx = 0
