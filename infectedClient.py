@@ -100,10 +100,11 @@ def main():
                 print(decode(userInput[1]))
 
             elif (userInput[0].lower() == 'encodeanduploadfile'):
+                extension = userInput[2].split('.')[1]
                 encode(userInput[1], "", True, extension, userInput[2]) # No message when transferring files
                 upload(userInput[1], userInput[3])
 
-            elif (userInput[0].lower() == 'decodefile'):
+            elif (userInput[0].lower() == 'downloadanddecodefile'):
                 print(decode(userInput[1]))
                 upload(userInput[1], userInput[2])
                 
