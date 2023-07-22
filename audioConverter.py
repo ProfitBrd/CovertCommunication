@@ -25,8 +25,11 @@ def encode_message(audio_file, output_file_name, message, is_binary, file_type, 
     # Convert the length of the message into binary
     lengthInBinaryForm = format(len(binary_message),'032b')
 
-    # Convert the file type to binary
-    encoded_text = file_type.encode('utf-8')
+    # Convert the file type to binary after checking/changing if it isn't length 3
+    three_letters = file_type[:3]
+    if len(three_letters) < 3:
+        three_letters += ' ' * (3 - len(three_letters))
+    encoded_text = three_letters.encode('utf-8')
     fileTypeInBinaryForm = ''.join(format(byte, '08b') for byte in encoded_text)
 
     # Skip forward until data isn't 0
