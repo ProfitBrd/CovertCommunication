@@ -51,12 +51,12 @@ def decode(encoded_file_name):
 
 
 def download(original_file_name, ip_and_port):
-    encoded_file_name = original_file_name.replace('.wav', 'Encoded.wav')
+    # encoded_file_name = original_file_name.replace('.wav', 'Encoded.wav')
 
     # Download a file
-    download_url_encoded = f'http://{ip_and_port}/files/{encoded_file_name}'
+    download_url_encoded = f'http://{ip_and_port}/files/{original_file_name}'
     response_encoded = requests.get(download_url_encoded)
-    with open(encoded_file_name, 'wb') as file:
+    with open(original_file_name, 'wb') as file:
         file.write(response_encoded.content)
     print('Files downloaded successfully!')
     
@@ -87,8 +87,8 @@ def main():
                 
             # Download and Decode Text Message --> downloadAndDecode [filename.wav] [ip address and port]
             elif(userInput[0].lower() == 'downloadanddecode'):
-                    download(userInput[1], userInput[2])
-                    print(decode(userInput[1]))
+                download(userInput[1], userInput[2])
+                print(decode(userInput[1]))
 
             #-----------------------------------------------------BINARY BELOW
             
