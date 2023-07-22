@@ -25,7 +25,7 @@ title = '''
                                                                               
 '''
 
-table = [["Encode and Upload WAV:", "encodeAndUpload [filename.wav] \'[message]\' [ip address and port]"],["Encode a WAV","encode [filename.wav] \'[message]\'"],["Download and Decode WAV:","downloadAndDecode [filename.wav] [ip address and port]"],["Decode a WAV", "decode [filename.wav]"]]
+table = [["Encode and Upload A Text Message:", "encodeAndUpload [filename.wav] \'[message]\' [ip address and port]"],["Encode A Text Message","encode [filename.wav] \'[message]\'"],["Download and Decode A Text Message:","downloadAndDecode [encodedFilename.wav] [ip address and port]"],["Decode A Text Message", "decode [encodedFilename.wav]"],["-------------------------", "--------------------------------------------------------"],["Encode and Upload A File:", "encodeAndUploadFile [filename.wav] \'[fileToBeEncoded]\' [ip address and port]"],["Encode A File","encodeFile [filename.wav] \'[fileToBeEncoded]\'"],["Download and Decode A File:","downloadAndDecodeFile [encodeFilename.wav] [ip address and port]"],["Decode A File", "decodeFile [encodedFilename.wav]"]]
 
 
 def encode(original_file_name, message, is_binary, file_type, input_file):
@@ -44,11 +44,9 @@ def upload(original_file_name, ip_and_port):
     response_encoded = requests.post(upload_url, files=files_encoded)
     print(response_encoded.text)  # Output: File uploaded successfully!
     
-def decode(original_file_name):
-    
-    encoded_file_name = original_file_name.replace('.wav', 'Encoded.wav')
-    
-    #Decode that file
+def decode(encoded_file_name):
+    original_file_name = encoded_file_name.replace('Encoded.wav', '.wav')
+    #Decode the file
     return ac.decode_message(original_file_name, encoded_file_name)
 
 
@@ -68,78 +66,57 @@ def download(original_file_name, ip_and_port):
 def main():
     print(title)
     while (True):
-        print()
-        userInput = input(tabulate(table, headers = ["Explanation", "Code"], tablefmt="outline") + "\n\n>")
-        userInput = shlex.split(userInput)
+        try:
+        
+            print()
+            userInput = input(tabulate(table, headers = ["Explanation", "Command"], tablefmt="outline") + "\n\n>")
+            userInput = shlex.split(userInput)
 
-        # Upload and Ecrypt Text Message --> encodeAndUpload [filename.wav] '[message]' [ip address and port] 
-        if (userInput[0].lower() == 'encodeandupload'):
-            try:
-                encode(userInput[1], userInput[2], False, "msg")
-                upload(userInput[1], userInput[3])
-
-            except ValueError as error:
-                print("Error: " + str(error))
-            except IndexError as error:
-                print("Missing Arguments!")
+            # Encode Text Message --> encode [filename.wav] '[message]'
+            if(userInput[0].lower() == 'encode'):
+                encode(userInput[1], userInput[2], False, "msg", "")
             
-        # Download and Decode Text Message --> downloadAndDecode [filename.wav] [ip address and port]
-        elif(userInput[0].lower() == 'downloadanddecode'):
-            try:
-                download(userInput[1], userInput[2])
+            # Decode Text Message --> decode [filename.wav]
+            elif(userInput[0].lower() == 'decode'):
                 print(decode(userInput[1]))
 
-            except ValueError as error:
-                print("Error: " + str(error))
-            except IndexError as error:
-                print("Missing Arguments!")
+            # Upload and Ecrypt Text Message --> encodeAndUpload [filename.wav] '[message]' [ip address and port] 
+            elif (userInput[0].lower() == 'encodeandupload'):
+                encode(userInput[1], userInput[2], False, "msg")
+                upload(userInput[1], userInput[3])
+                
+            # Download and Decode Text Message --> downloadAndDecode [filename.wav] [ip address and port]
+            elif(userInput[0].lower() == 'downloadanddecode'):
+                    download(userInput[1], userInput[2])
+                    print(decode(userInput[1]))
+
+            #-----------------------------------------------------BINARY BELOW
+            
+            elif (userInput[0].lower() == 'encodefile'):
+                extension = userInput[2].split('.')[1]
+                encode(userInput[1], "", True, extension, userInput[2]) # No message when transferring files
+
+            elif (userInput[0].lower() == 'decodefile'):
+                print(decode(userInput[1]))
+
+            elif (userInput[0].lower() == 'encodeanduploadfile'):
+                encode(userInput[1], "", True, extension, userInput[2]) # No message when transferring files
+                upload(userInput[1], userInput[3])
+
+            elif (userInput[0].lower() == 'decodefile'):
+                print(decode(userInput[1]))
+                upload(userInput[1], userInput[2])
+                
+            
+            # Invalid Format
+            else:
+                print('Invalid Format!')
         
-        # Decode Text Message --> decode [filename.wav]
-        elif(userInput[0].lower() == 'decode'):
-            try:
-                original_file_name = userInput[1].replace('Encoded.wav', '.wav')
-                print(decode(original_file_name))
 
-            except ValueError as error:
+        except ValueError as error:
                 print("Error: " + str(error))
-            except IndexError as error:
-                print("Missing Arguments!")
-        
-        # Encode Text Message --> encode [filename.wav] '[message]'
-        elif(userInput[0].lower() == 'encode'):
-            try:
-                encode(userInput[1], userInput[2], False, "msg", "bruh.jpg") #CHANGE BACK------------------
-            except ValueError as error:
-                print("Error: " + str(error))
-            except IndexError as error:
-                print("Missing Arguments!")
-
-
-        #-----------------------------------------------------BINARY BELOW
-        elif (userInput[0].lower() == 'e'): #encodeanduploadbinary
-            try:
-                encode(userInput[1], userInput[2], True, "jpg", userInput[3]) #no message when transferring files-=----
-                # upload(userInput[1], userInput[3])
-
-            except ValueError as error:
-                print("Error: " + str(error))
-            except IndexError as error:
-                print("Missing Arguments!")
-
-        elif (userInput[0].lower() == 'd'):
-            try:
-                original_file_name = userInput[1].replace('Encoded.wav', '.wav')
-                print(decode(original_file_name))
-                # upload(userInput[1], userInput[3])
-
-            except ValueError as error:
-                print("Error: " + str(error))
-            except IndexError as error:
-                print("Missing Arguments!")
-
-        # Invalid Format
-        else:
-            print('Invalid Format!')
+        except IndexError as error:
+            print("Missing Arguments!")
 
 
 
