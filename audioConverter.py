@@ -141,7 +141,7 @@ def decode_message(original_audio_file, encoded_audio_file):
         else:
             bits.append('0')
 
-    # Convert the bits to characters #-------DEAL WITH<<<<<<<<<<<<<<<<< THIS IS THE NULL BYTE
+    # Convert the bits to characters
     if (fileFormat == "msg"):
         message = ''
         for i in range(0, len(bits), 8):
@@ -151,7 +151,7 @@ def decode_message(original_audio_file, encoded_audio_file):
 
     # Convert the integer back to bytes
     elif (fileFormat != "msg"):
-        result_string = ''.join(bits) #---------------------UNTESTED
+        result_string = ''.join(bits)
         integer_value = int(result_string , 2)
         num_bytes = (len(result_string) + 7) // 8  # Calculate the number of bytes needed
         bytes_data = integer_value.to_bytes(num_bytes, 'big')
