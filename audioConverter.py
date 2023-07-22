@@ -44,11 +44,8 @@ def encode_message(audio_file, output_file_name, message, is_binary, file_type, 
     for i in range (startIndex, startIndex+(len(lengthInBinaryForm))): #should be 32 
         needToChange = lengthInBinaryForm[messageIdx]
 
-        # If we need to change, increase amplitude by 1
-        if (data[startIndex][0] == 0 and int(needToChange)):
-            data[i][0] = 1
-
-        elif (int(needToChange)):
+        # Increase Amplitude by One to Indicate a 1
+        if (int(needToChange)):
             data[i][0] += 1
         
         startIndex += 1
@@ -59,11 +56,8 @@ def encode_message(audio_file, output_file_name, message, is_binary, file_type, 
     for i in range (startIndex, startIndex+(len(fileTypeInBinaryForm))): #should be 24
         needToChange = fileTypeInBinaryForm[messageIdx]
 
-        # If we need to change, increase amplitude by 1
-        if (data[startIndex][0] == 0 and int(needToChange)):
-            data[i][0] = 1
-
-        elif (int(needToChange)):
+        # Increase Amplitude by One to Indicate a 1
+        if (int(needToChange)):
             data[i][0] += 1
         
         startIndex += 1
@@ -74,11 +68,8 @@ def encode_message(audio_file, output_file_name, message, is_binary, file_type, 
     for i in range (startIndex, startIndex+(len(binary_message))):
         needToChange = binary_message[messageIdx]
     
-        # If we need to change, flip the least significant bit
-        if (data[i][0] == 0 and int(needToChange)):
-            data[i][0] = 1
-
-        elif (int(needToChange)):
+        # Increase Amplitude by One to Indicate a 1
+        if (int(needToChange)):
             data[i][0] += 20
             
         messageIdx += 1
