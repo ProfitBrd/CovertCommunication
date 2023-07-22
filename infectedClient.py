@@ -105,8 +105,9 @@ def main():
                 upload(userInput[1], userInput[3])
 
             elif (userInput[0].lower() == 'downloadanddecodefile'):
+                download(userInput[1], userInput[2])
                 print(decode(userInput[1]))
-                upload(userInput[1], userInput[2])
+                
                 
             
             # Invalid Format
