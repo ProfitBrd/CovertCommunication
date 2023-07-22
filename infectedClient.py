@@ -82,7 +82,7 @@ def main():
 
             # Upload and Ecrypt Text Message --> encodeAndUpload [filename.wav] '[message]' [ip address and port] 
             elif (userInput[0].lower() == 'encodeandupload'):
-                encode(userInput[1], userInput[2], False, "msg")
+                encode(userInput[1], userInput[2], False, "msg", "")
                 upload(userInput[1], userInput[3])
                 
             # Download and Decode Text Message --> downloadAndDecode [filename.wav] [ip address and port]
